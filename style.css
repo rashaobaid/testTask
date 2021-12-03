@@ -58,9 +58,10 @@ form > * {
   align-content: center;
   justify-content: center;
 }
-.container2 {
+.container2,
+.container22 {
   display: flex;
-  margin: 100px 45px;
+  margin: 40px 45px 20px;
   flex-wrap: wrap;
 }
 .item {
@@ -72,6 +73,7 @@ form > * {
   width: 200px;
   border: 1px solid gainsboro;
   padding: 0 20px;
+  box-shadow: 3px 2px 5px 0px rgba(136, 134, 134, 0.75);
 }
 h1 {
   text-align: center;
@@ -91,6 +93,7 @@ h1 {
   border: 1px solid;
   margin-bottom: 10px;
   cursor: pointer;
+  border-radius: 6px;
 }
 
 .container3 {
@@ -107,12 +110,17 @@ h1 {
   cursor: pointer;
   border-radius: 5px;
 }
+#deleteall {
+  background-color: rgb(190 126 81);
+}
 #deleteone {
   background-color: #c45a00;
 }
 
 #summary {
-  background-color: rgb(186 164 6);
+  border: none;
+  background-color: #d20000;
+  color: #fff;
 }
 .modal-bg,
 .modal-bgdelete {
@@ -127,7 +135,7 @@ h1 {
   align-items: center;
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s, opacity 0.5s;
+  transition: visibility 0.3s, opacity 0.5s;
 }
 .bg-active {
   visibility: visible;

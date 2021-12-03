@@ -21,10 +21,7 @@ modalButdelete.addEventListener("click", function () {
 const closeModal = () => {
   modalBgDelete.classList.remove("bg-active");
 };
-//  view edit modal
-const showEditModal = () => {
-  modalBg.classList.add("bg-active");
-};
+
 // close edit modal
 const closeEditModal = () => {
   modalBg.classList.remove("bg-active");
@@ -91,6 +88,8 @@ const addItems = (title, description, date) => {
     date,
   };
   items.push(item);
+  sessionStorage.setItem("ListItems", JSON.stringify(items));
+  console.log(items);
 };
 
 // view items in container
@@ -105,7 +104,7 @@ const viewItems = (items) => {
       ${item.description}
     </p>
       <p>${item.date}</p>
-      <button  class="modal-btn" onclick="showEditModal()" ><i class="fas fa-pencil-alt"></i></button>
+      <button  class="modal-btn" onclick="editForm(${item.id})" ><i class="fas fa-pencil-alt"></i></button>
        </div>`
     )
     .join(" ");
@@ -117,7 +116,7 @@ const deleteItems = (items) => {
   viewItems(items);
   counter = 0;
   Counter.innerHTML = ` ${counter}`;
-  console.log(counter);
+  sessionStorage.setItem("ListItems", JSON.stringify(items));
 };
 
 // check item
@@ -131,26 +130,69 @@ const handleChangechecked = (id) => {
 };
 
 // remov select item
-const removeItem = (items) => {
-  let checkedItems = doneItemsIds.length;
-  items = items.filter((a) => !doneItemsIds.includes(a.id));
+const removeItem = () => {
+  let count_befor = items.length;
+  items = items.filter((a) => !doneItemsIds.includes(parseInt(a.id)));
+  let count_after = items.length;
+  let new_count = count_befor - count_after;
+  doneItemsIds = items.filter((a) => doneItemsIds.includes(parseInt(a.id)));
   viewItems(items);
-  counter = counter - checkedItems;
-  Counter.innerHTML = ` ${counter}`;
+  counter = counter - new_count;
+  Counter.innerHTML = `${counter}`;
   closeModal();
-  console.log("remove", items);
+  sessionStorage.setItem("ListItems", JSON.stringify(items));
 };
 
-// edit item
-const editForm = (id) => {
+formModal.addEventListener("submit", (e) => {
   e.preventDefault();
-  console.log(id);
+  let edit_title = document.getElementById("input_title").value;
+  let edit_description = document.getElementById("input_des").value;
+  let edit_date = document.getElementById("input_date").value;
+  const titleErrorDiv = document.getElementById("entertitle_edit");
+  const desErrorDiv = document.getElementById("enterdes_edit");
+  const dateErrorDiv = document.getElementById("enterdate_edit");
 
-  // const edit_title = document.getElementById("input_title");
-  // const edit_description = document.getElementById("input_des");
-  // const edit_date = document.getElementById("input_date");
-  // const edititem = items.includes(item);
-  // edit_title.value = item.title;
-  // edit_description.value = item.description;
-  // edit_date.value = items.date;
+  let results = checkInputs(edit_title, edit_description, edit_date);
+
+  titleErrorDiv.innerHTML = "";
+  desErrorDiv.innerHTML = "";
+  dateErrorDiv.innerHTML = "";
+  let id = localStorage.getItem("cardId");
+  if (Object.keys(results.errors).length === 0) {
+    editFormData(id, edit_title, edit_description, edit_date);
+    sessionStorage.setItem("ListItems", JSON.stringify(items));
+    closeEditModal();
+    viewItems(items);
+  }
+  if (results) {
+    if (results.errors.title) {
+      titleErrorDiv.innerHTML = results.errors.title;
+    }
+
+    if (results.errors.description) {
+      desErrorDiv.innerHTML = results.errors.description;
+    }
+    if (results.errors.date) {
+      dateErrorDiv.innerHTML = results.errors.date;
+    }
+  }
+});
+
+const editForm = (id) => {
+  modalBg.classList.add("bg-active");
+  const index = items.findIndex((ele) => ele.id == id);
+  localStorage.setItem("cardId", id);
+  let edit_title = (document.getElementById("input_title").value =
+    items[index].title);
+  let edit_description = (document.getElementById("input_des").value =
+    items[index].description);
+  let edit_date = (document.getElementById("input_date").value =
+    items[index].date);
+};
+
+const editFormData = (id, title, description, date) => {
+  const index = items.findIndex((ele) => ele.id == id);
+  let items_arr = [...items];
+  items_arr[index] = { id, title, description, date };
+  items = [...items_arr];
 };

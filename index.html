@@ -37,7 +37,9 @@
     <div class="container3">
       <button id="deleteall" onclick="deleteItems(items)">DeleteAll</button>
       <button id="deleteone">DeleteItem</button>
-      <button id="summary">summary</button>
+      <a href="summary.html">
+        <button id="summary">summary</button>
+      </a>
     </div>
     <!--  -->
 
@@ -52,18 +54,18 @@
             name="title"
             placeholder="Enter Title"
           />
-          <div class="err" id="entertitle"></div>
+          <div class="err" id="entertitle_edit"></div>
           <textarea
             id="input_des"
             name="descrption"
             rows="10px"
             placeholder="Enter Descrption"
           ></textarea>
-          <div class="err" id="enterdes"></div>
+          <div class="err" id="enterdes_edit"></div>
           <input type="date" name="date" id="input_date" />
-          <div class="err" id="enterdate"></div>
+          <div class="err" id="enterdate_edit"></div>
           <span>
-            <button type="submit" id="save" onclick="editForm(id)">Save</button>
+            <button type="submit" id="save">Save</button>
             <button id="cancel1" onclick="closeEditModal()">Cancel</button>
           </span>
         </form>
@@ -76,7 +78,7 @@
       <div class="modalDelete">
         <h2>Are you sure Delete This Task</h2>
         <span>
-          <button id="delete" onclick="removeItem(items)">Delete</button>
+          <button id="delete" onclick="removeItem()">Delete</button>
           <button id="cancel" onclick="closeModal()">Cancel</button>
         </span>
       </div>
